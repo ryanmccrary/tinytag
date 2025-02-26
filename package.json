@@ -5,7 +5,7 @@
   "scripts": {
     "build": "rollup -c",
     "watch": "rollup -c -w",
-    "deploy": "aws s3 cp build/tt.js s3://your-bucket-name/tinytag/tt.js --acl public-read",
+    "deploy": "aws s3 cp build/tt.js s3://tiny-tag/tt.js --acl public-read",
     "release": "npm run build && npm run deploy",
     "test": "jest",
     "test:coverage": "jest --coverage"
