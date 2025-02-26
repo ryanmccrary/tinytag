@@ -2,7 +2,15 @@ import { setCookie, getCookie, generateId, getAnalyticsCookie } from './cookie.j
 
 describe('Cookie Utilities', () => {
   beforeEach(() => {
-    document.cookie = ''; // Clear all cookies
+    // Explicitly clear all cookies by expiring them
+    document.cookie.split(';').forEach(cookie => {
+        const [name] = cookie.split('=');
+        document.cookie = `${name.trim()}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/`;
+      });
+      // Extra safety: ensure specific cookies are cleared
+      document.cookie = 'ajs_test=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/';
+      document.cookie = 'rl_test=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/';
+      document.cookie = 'fallback=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/';
   });
 
   test('setCookie and getCookie work together', () => {

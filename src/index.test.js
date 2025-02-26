@@ -8,47 +8,60 @@ describe('TinyTag', () => {
     document.cookie = '';
     global.fetch = jest.fn(() => Promise.resolve({ ok: true }));
     tt = new TinyTag();
+    jest.spyOn(tt.queue, 'push'); // Spy on queue.push to check events
     tt.init({ writeKey: 'testkey', dataPlaneUrl: 'http://example.com' });
+  });
+
+  afterEach(() => {
+    jest.restoreAllMocks();
   });
 
   test('page queues an event with context', () => {
     tt.page('Home');
-    expect(tt.queue.queue[0]).toMatchObject({
-      type: 'page',
-      name: 'Home',
-      context: expect.objectContaining({
-        userAgent: navigator.userAgent
+    expect(tt.queue.push).toHaveBeenCalledWith(
+      expect.objectContaining({
+        type: 'page',
+        name: 'Home',
+        context: expect.objectContaining({
+          userAgent: navigator.userAgent
+        })
       })
-    });
+    );
   });
 
   test('track queues an event', () => {
     tt.track('Button Clicked', { button: 'test' });
-    expect(tt.queue.queue[0]).toMatchObject({
-      type: 'track',
-      event: 'Button Clicked',
-      properties: { button: 'test' }
-    });
+    expect(tt.queue.push).toHaveBeenCalledWith(
+      expect.objectContaining({
+        type: 'track',
+        event: 'Button Clicked',
+        properties: { button: 'test' }
+      })
+    );
   });
 
   test('identify sets userId and merges traits', () => {
     setCookie('rl_trait', JSON.stringify({ email: 'old@example.com' }));
     tt.identify('user123', { name: 'New User' });
-    expect(tt.queue.queue[0]).toMatchObject({
-      type: 'identify',
-      userId: 'user123',
-      traits: { email: 'old@example.com', name: 'New User' }
-    });
+    expect(tt.queue.push).toHaveBeenCalledWith(
+      expect.objectContaining({
+        type: 'identify',
+        userId: 'user123',
+        traits: { email: 'old@example.com', name: 'New User' }
+      })
+    );
     expect(document.cookie).toContain('userId=user123');
   });
 
   test('group queues an event', () => {
     tt.group('group456', { name: 'Test Group' });
-    expect(tt.queue.queue[0]).toMatchObject({
-      type: 'group',
-      groupId: 'group456',
-      traits: { name: 'Test Group' }
-    });
+    expect(tt.queue.push).toHaveBeenCalledWith(
+      expect.objectContaining({
+        type: 'group',
+        groupId: 'group456',
+        traits: { name: 'Test Group' }
+      })
+    );
   });
 
   test('getAnonymousId uses Segment cookie if present', () => {
