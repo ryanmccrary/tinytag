@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "build/tt.js",
   "scripts": {
-    "build": "rollup -c",
+    "build": "rollup -c --bundleConfigAsCjs",
     "watch": "rollup -c -w",
     "deploy": "aws s3 cp build/tt.js s3://tiny-tag/tt.js --acl public-read",
     "release": "npm run build && npm run deploy",
