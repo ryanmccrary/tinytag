@@ -5,8 +5,8 @@
   "scripts": {
     "build": "rollup -c --bundleConfigAsCjs",
     "watch": "rollup -c -w",
-    "deploy": "aws s3 cp build/tt.js s3://tiny-tag/tt.js --acl public-read",
-    "release": "npm run build && npm run deploy",
+    "deploy": "aws s3 cp build/tt.js s3://tiny-tag/tinytag/tt.js --content-encoding gzip",
+    "release": "npm run build && gzip -9 build/tt.js && mv build/tt.js.gz build/tt.js && npm run deploy",
     "test": "jest",
     "test:coverage": "jest --coverage"
   },
