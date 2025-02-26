@@ -1,6 +1,7 @@
 import { EventQueue } from './queue.js';
 import { setCookie, getCookie, getAnalyticsCookie, generateId } from './cookie.js';
 import { sendEvent } from './http.js';
+import { version } from '../package.json';
 
 // Define TinyTag class
 function TinyTag() {
@@ -42,11 +43,34 @@ TinyTag.prototype.parseQueryParams = function () {
 };
 
 TinyTag.prototype.getDefaultContext = function () {
+  const initialReferrer = document.referrer || null; // Initial referrer from page load
+  const referrer = document.referrer || null; // Current referrer (same as initial for single-page)
+  const hostname = window.location.hostname;
+
   return {
+    library: {
+      name: 'TinyTag',
+      version: version
+    },
+    locale: navigator.language || navigator.userLanguage || '',
+    page: {
+      initial_referrer: initialReferrer,
+      initial_referring_domain: initialReferrer ? new URL(initialReferrer).hostname : null,
+      path: window.location.pathname,
+      referrer: referrer,
+      referring_domain: referrer ? new URL(referrer).hostname : null,
+      search: window.location.search,
+      tab_url: window.location.href,
+      title: document.title,
+      url: window.location.href
+    },
     userAgent: navigator.userAgent,
     screen: {
-      width: window.screen.width,
-      height: window.screen.height
+      density: window.devicePixelRatio || 1,
+      height: window.screen.height,
+      innerHeight: window.innerHeight,
+      innerWidth: window.innerWidth,
+      width: window.screen.width
     },
     timestamp: new Date().toISOString(),
     page: {
