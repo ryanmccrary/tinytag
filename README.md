@@ -43,3 +43,10 @@ Use your own RudderStack or Segment `writeKey` and `dataPlaneUrl` in the `init` 
 
 For now, it reads Segment cookies and uses if they exist. Also checks RudderStack but (TODO) needs to decrypt/decode both types. 
 
+## TODO
+- [ ] Support reset()
+- [ ] Read traits from localstorage
+- [ ] Store traits to localstorage?
+- [ ] Explore adding queue to localstorage (for durability)
+- [ ] Probably should prepend cookies with something
+- [ ] Need to decrypt and decode both RS cookies (don't want to include in core library)
