@@ -1,4 +1,4 @@
-import { sendEvent } from './http.js';
+import { sendEvent } from '../src/http.js';
 
 describe('HTTP Utility', () => {
   beforeEach(() => {

@@ -1,4 +1,4 @@
-import { setCookie, getCookie, generateId, getAnalyticsCookie } from './cookie.js';
+import { setCookie, getCookie, generateId, getAnalyticsCookie } from '../src/cookie.js';
 
 describe('Cookie Utilities', () => {
   beforeEach(() => {

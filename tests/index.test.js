@@ -1,5 +1,5 @@
-import TinyTag from './index.js';
-import { setCookie } from './cookie.js';
+import TinyTag from '../src/index.js';
+import { setCookie } from '../src/cookie.js';
 
 describe('TinyTag', () => {
   let tt;

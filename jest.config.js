@@ -2,7 +2,7 @@ module.exports = {
   testEnvironment: 'jsdom',
   moduleFileExtensions: ['js'],
   coverageDirectory: 'coverage',
-  collectCoverageFrom: ['src/**/*.js'],
+  collectCoverageFrom: ['tests/**/*.js'],
   transform: {
     '^.+\\.js$': 'babel-jest'
   }
