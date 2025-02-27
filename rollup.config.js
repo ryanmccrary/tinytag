@@ -12,11 +12,18 @@ export default {
   plugins: [
     json(),
     terser({
-      compress: {
-        drop_console: true,
-        pure_funcs: ['console.log']
-      },
-      mangle: true
+        compress: {
+            drop_console: true,
+            pure_funcs: ['console.log'],
+            dead_code: true,
+            drop_debugger: true,
+            conditionals: true,
+            unused: true,
+            toplevel: true,
+            passes: 3
+          },
+          mangle: { toplevel: true },
+          output: { comments: false }
     })
   ]
 };
