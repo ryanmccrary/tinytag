@@ -20,8 +20,8 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Build
-        run: npm run build
+      - name: Build and Compress
+        run: npm run release # Changed from npm run build
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2
