@@ -5,8 +5,8 @@
   "scripts": {
     "build": "rollup -c --bundleConfigAsCjs",
     "watch": "rollup -c -w",
-    "deploy": "aws s3 cp build/tt.js s3://tiny-tag/tinytag/tt.js --content-encoding gzip && aws s3 cp build/tt-rudder-compat.js s3://tiny-tag/tinytag/tt-rudder-compat.js --content-encoding gzip",
-    "release": "npm run build && gzip -9 build/tt.js && mv build/tt.js.gz build/tt.js && gzip -9 build/tt-rudder-compat.js && mv build/tt-rudder-compat.js.gz build/tt-rudder-compat.js && npm run deploy",
+    "deploy": "aws s3 cp build/tt.js.gz s3://tiny-tag/tt.js --content-encoding gzip --content-type application/javascript && aws s3 cp build/tt-rudder-compat.js.gz s3://tiny-tag/tt-rudder-compat.js --content-encoding gzip --content-type application/javascript",
+    "release": "npm run build && gzip -9 -c build/tt.js > build/tt.js.gz && gzip -9 -c build/tt-rudder-compat.js > build/tt-rudder-compat.js.gz && npm run deploy",
     "test": "jest",
     "test:coverage": "jest --coverage"
   },
