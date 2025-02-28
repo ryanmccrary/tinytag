@@ -3,6 +3,18 @@ import { setCookie, getCookie, getAnalyticsCookie, generateId } from './cookie.j
 import { sendEvent } from './http.js';
 import { version } from '../package.json';
 
+function decodeV3Cookie(value) {
+    if (value && value.startsWith('RS_ENC_v3_')) {
+        const encoded = value.replace('RS_ENC_v3_', '');
+        try {
+            return JSON.parse(atob(encoded));
+        } catch (e) {
+            return null;
+        }
+    }
+    return value;
+}
+
 // Define TinyTag class
 function TinyTag() {
   this.queue = new EventQueue();
@@ -135,7 +147,7 @@ TinyTag.prototype.group = function (groupId, traits = {}) {
 };
 
 TinyTag.prototype.getAnonymousId = function () {
-  let anonId = getAnalyticsCookie('anonymous_id', 'anonymousId');
+  let anonId = decodeV3Cookie(getAnalyticsCookie('anonymous_id', 'anonymousId'));
   if (!anonId) {
     anonId = generateId();
     setCookie('anonymousId', anonId);
@@ -144,11 +156,11 @@ TinyTag.prototype.getAnonymousId = function () {
 };
 
 TinyTag.prototype.getUserId = function () {
-  return getAnalyticsCookie('user_id', 'userId');
+  return decodeV3Cookie(getAnalyticsCookie('user_id', 'userId'));
 };
 
 TinyTag.prototype.getTraits = function () {
-  const traitsCookie = getAnalyticsCookie('trait', 'traits');
+  const traitsCookie = decodeV3Cookie(getAnalyticsCookie('trait', 'traits'));
   return traitsCookie ? JSON.parse(traitsCookie) : {};
 };
 
