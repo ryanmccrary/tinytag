@@ -50,3 +50,4 @@ For now, it reads Segment cookies and uses if they exist. Also checks RudderStac
 - [ ] Explore adding queue to localstorage (for durability)
 - [ ] Probably should prepend cookies with something
 - [ ] Need to decrypt and decode both RS cookies (don't want to include in core library)
+- [ ] Actually manage sendEvent failures
