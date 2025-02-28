@@ -1,5 +1,6 @@
 // import CryptoJS from 'crypto-js'; // For v1 decryption
 import { AES } from 'crypto-js';
+import CryptoJS from 'crypto-js'; // Needed for tests
 import { getCookie } from './cookie.js'; // Reuse TinyTag's getCookie
 
 // RudderStack v1 decryption key (placeholder, needs actual key)
@@ -26,7 +27,7 @@ function decryptV1Cookie(value) {
         const decrypted = bytes.toString(CryptoJS.enc.Utf8);
         return decrypted || value; // Return original if decryption fails or is empty
       } catch (e) {
-        return 'whoa'; // Return original on exception
+        return value; // Return original on exception
       }
     }
     return value; // Not v3 or encrypted, return as-is

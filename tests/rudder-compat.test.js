@@ -1,7 +1,4 @@
 
-/**
- * @jest-environment jsdom
- */
 import '../src/index.js'; // Load tt.js first to set up window.tt
 import '../src/rudder-compat.js'; // Then load rudder-compat.js to enhance it
 import { setCookie, getCookie } from '../src/cookie.js';
@@ -56,5 +53,13 @@ describe('RudderStack Compatibility', () => {
     const v3Value = 'RS_ENC_v3_' + btoa(JSON.stringify(JSON.stringify(traits)));
     setCookie('rl_trait', v3Value);
     expect(window.tt.getTraits()).toEqual(traits);
+  });
+
+  test('decryptV1Cookie decrypts v1 RudderStack cookie', () => {
+    const plainValue = 'anon123asdasdasdlskdjasdlkajdalskdjasldsdl';
+    const encrypted = CryptoJS.AES.encrypt(plainValue, 'Rudder').toString();
+    const decrypted = decryptV1Cookie(encrypted);
+    console.log('Encrypted:', encrypted, 'Decrypted:', decrypted);
+    expect(decrypted).toBe(plainValue);
   });
 });
